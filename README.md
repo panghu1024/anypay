@@ -2,7 +2,7 @@
 
 AnyPay 是一套基于Golang开发的轻量级、易使用的支付组件，目前支持微信支付，支付宝正在开发当中。此组件目前用于我司家博会业务当中，经过实际场景运行稳定可靠。
 
-# How to get?
+# How to get it?
 go get github.com/panghu1024/anypay
 
 # How to use it?
