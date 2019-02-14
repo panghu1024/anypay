@@ -1,7 +1,12 @@
+[![Software license][ico-license]](LICENSE)
+
+
 # What is AnyPay？
 
 AnyPay 是一套基于Golang开发的轻量级、易使用的支付组件，目前支持微信支付，支付宝正在开发当中。此组件目前用于我司家博会业务当中，经过实际场景运行稳定可靠。
 
+# How to get?
+go get github.com/panghu1024/anypay
 
 # How to use it?
 
@@ -160,3 +165,7 @@ AnyPay 是一套基于Golang开发的轻量级、易使用的支付组件，目�
 
 # 使用反馈以及优化建议
 此文档持续更新中,有问题请联系 panghu1024@gmail.com
+
+# License #
+
+AnyPay is under the terms of the MIT license (see [LICENSE](LICENSE)).
