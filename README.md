@@ -32,7 +32,7 @@ go get github.com/panghu1024/anypay
 		Body:"测试商品",
 		OutTradeNo:"C20190214000133",
 		TotalFee:"1",
-		SpbillCreateIp:"127.0.0.1",
+		SpbillCreateIp:"127.0.0.1", //务必替换成获取的真实IP
 		NotifyUrl:"http://notify",
 		TradeType:"JSAPI",
 		Openid:"obxjktz34If5J6xal0HXGnK23H8E", // JSAPI方式此参数必传
@@ -65,7 +65,7 @@ go get github.com/panghu1024/anypay
 		Body:"测试商品",
 		OutTradeNo:"C20190214000133",
 		TotalFee:"1",
-		SpbillCreateIp:"127.0.0.1",
+		SpbillCreateIp:"127.0.0.1",  //务必替换成获取的真实IP
 		NotifyUrl:"http://notify",
 		TradeType:"NATIVE",
 	})
@@ -88,7 +88,7 @@ go get github.com/panghu1024/anypay
 		Body:"测试商品",
 		OutTradeNo:"C20190214000133",
 		TotalFee:"1",
-		SpbillCreateIp:"127.0.0.1",
+		SpbillCreateIp:"127.0.0.1",  //务必替换成获取的真实IP
 		NotifyUrl:"http://notify",
 		TradeType:"MWEB",
 	})
