@@ -160,7 +160,29 @@ go get github.com/panghu1024/anypay
 	}
 ```
 
-# 使用反馈以及优化建议
+### 8.企业付款-转账到余额
+
+``` golang
+  
+	res := payment.TransferBalance(anypay.WeTransferBalanceParam{//发起转账
+		PartnerTradeNo:"X20190214100423", // 转账单号 需唯一
+		SpbillCreateIp:"127.0.0.1", // 务必替换成用户真实IP
+		CheckName:"NO_CHECK",
+		Amount:"100",
+		Desc:"测试", // 最低转账金额 1CNY
+		Openid:"oxst31OVq9B5yB3hYVZxNeKcCG5g",
+	})
+
+	if res.Status == 1{//调用成功
+		param := res.Data.(anypay.WeResTransferBalance)
+
+		fmt.Println(param)
+	}else{//调用失败
+		fmt.Println(res)
+	}
+```
+
+# Feedback & Suggestion
 此文档持续更新中,有问题请联系 panghu1024@gmail.com
 
 # License #
