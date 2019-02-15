@@ -12,7 +12,7 @@ var ApiUrlMap  = map[string]string{
 	"RefundQuery":		"https://api.mch.weixin.qq.com/pay/refundquery",
 	"CloseOrder":		"https://api.mch.weixin.qq.com/pay/closeorder",
 	"TransferBalance":	"https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers",
-	"TransferCard":		"https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank",
+	"TransferBank":		"https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank",
 }
 
 //微信支付配置
