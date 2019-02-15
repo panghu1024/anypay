@@ -144,7 +144,8 @@ go get github.com/panghu1024/anypay
 
 ### 7.关闭订单
 
-``` golang
+``` golang 
+
   
 	res := payment.CloseOrder(anypay.WeCloseOrderParam{//发起关闭操作
 		OutTradeNo:"C20190214000133",
@@ -161,7 +162,7 @@ go get github.com/panghu1024/anypay
 ```
 
 # 使用反馈以及优化建议
-此文档持续更新中,有问题请联系 panghu1024@gmail.com.
+此文档持续更新中,有问题请联系 panghu1024@gmail.com
 
 # License #
 
