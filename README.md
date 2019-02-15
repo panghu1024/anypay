@@ -182,6 +182,28 @@ go get github.com/panghu1024/anypay
 	}
 ```
 
+### 9.企业付款-转账到银行卡
+
+``` golang
+  
+	res := payment.TransferBank(anypay.WeTransferBankParam{//发起转账
+		PartnerTradeNo:"X20190214120425", //商户转账单号 需唯一
+		EncTrueName:"胖虎", // 账号姓名
+		EncBankNo:"622288882878555", //银行卡号
+		BankCode:"1001", //银行代码
+		Amount:"100", //金额 单位分
+		Desc:"测试",
+	})
+
+	if res.Status == 1{//调用成功
+		param := res.Data.(anypay.WeResTransferBank)
+
+		fmt.Println(param)
+	}else{//调用失败
+		fmt.Println(res)
+	}
+```
+
 # Feedback & Suggestion
 此文档持续更新中,有问题请联系 panghu1024@gmail.com
 
