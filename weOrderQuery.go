@@ -15,6 +15,7 @@ type WeOrderQueryParam struct {
 	NonceStr string `xml:"nonce_str"`			// 随机字符串
 	Sign string `xml:"sign"`					// 签名
 	TransactionId string `xml:"transaction_id"`	// 交易流水号
+	OutTradeNo string `xml:"out_trade_no"`		// 商户订单号
 	SignType string `xml:"sign_type"`			// 签名类型
 }
 
