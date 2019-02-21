@@ -68,9 +68,11 @@ func Struct2Map(obj interface{}) map[string]interface{} {
 
 	var data = make(map[string]interface{})
 	for i := 0; i < t.NumField(); i++ {
-		if v.Field(i).Interface().(string) == ""{
+
+		if reflect.TypeOf(v.Field(i)).String()=="string" &&  v.Field(i).Interface().(string) == ""{
 			continue
 		}
+
 		key := SnakeString(t.Field(i).Name)
 	 	data[key] = v.Field(i).Interface()
 	}
