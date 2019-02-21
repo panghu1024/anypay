@@ -41,7 +41,7 @@ type WeResOrderQuery struct {
 	FeeType string `xml:"fee_type"`						// 货币类型 CNY
 	Attach string `xml:"attach"`						// 附加信息
 	TimeEnd string `xml:"time_end"`						// 支付完成时间
-	TradeState string `xml:"trade_state"`				// 交易状态
+	TradeState string `xml:"trade_state"`				// 交易状态 SUCCESS—支付成功,REFUND—转入退款,NOTPAY—未支付,CLOSED—已关闭,REVOKED—已撤销,USERPAYING--用户支付中,PAYERROR--支付失败
 }
 
 //订单查询
