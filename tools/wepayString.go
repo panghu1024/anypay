@@ -6,6 +6,7 @@ import (
 	"strings"
 	"encoding/xml"
 	"reflect"
+	"strconv"
 )
 
 //生成随机字符
@@ -37,7 +38,12 @@ func GenerateSignString(data map[string]interface{},key string) (str string,err 
 		if k == "key"{
 			continue
 		}
-		paramsStr += k+"="+data[k].(string)+"&"
+		if reflect.TypeOf(data[k]).String() == "int"{
+			paramsStr += k+"="+strconv.Itoa(data[k].(int))+"&"
+		}else{
+			paramsStr += k+"="+data[k].(string)+"&"
+		}
+
 	}
 
 	paramsStr = paramsStr + "key=" + key
