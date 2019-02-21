@@ -38,12 +38,12 @@ func GenerateSignString(data map[string]interface{},key string) (str string,err 
 		if k == "key"{
 			continue
 		}
-		if reflect.TypeOf(data[k]).String() == "int"{
+		if reflect.TypeOf(data[k]).Kind() == reflect.Int{
 			if data[k].(int) == 0{
 				continue
 			}
 			paramsStr += k+"="+strconv.Itoa(data[k].(int))+"&"
-		}else{
+		}else if reflect.TypeOf(data[k]).Kind() == reflect.String{
 			if data[k].(string) == ""{
 				continue
 			}
@@ -80,16 +80,14 @@ func Struct2Map(obj interface{}) map[string]interface{} {
 
 	var data = make(map[string]interface{})
 	for i := 0; i < t.NumField(); i++ {
-
-		if reflect.TypeOf(v.Field(i)).String()=="string" &&  v.Field(i).Interface().(string) == ""{
+		if v.Field(i).Kind()==reflect.String &&  v.Field(i).Interface().(string) == ""{
 			continue
-		}
-		if reflect.TypeOf(v.Field(i)).String()=="int" &&  v.Field(i).Interface().(int) == 0{
+		}else if v.Field(i).Kind()==reflect.Int &&  v.Field(i).Interface().(int) == 0{
 			continue
+		}else{
+			key := SnakeString(t.Field(i).Name)
+			data[key] = v.Field(i).Interface()
 		}
-
-		key := SnakeString(t.Field(i).Name)
-	 	data[key] = v.Field(i).Interface()
 	}
 
  	return data
