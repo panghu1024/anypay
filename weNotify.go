@@ -61,7 +61,7 @@ func (w WePay) Notify(r *http.Request,checkAppId bool) ReturnParam {
 	signCheck := w.SignCheck(resMap)
 
 	if signCheck.Status != 1{
-		return ReturnParam{-1,"签名验签未通过",resNotify}
+		return ReturnParam{-1,"签名验签未通过",resMap}
 	}
 
 	return ReturnParam{1,"ok",resNotify}
