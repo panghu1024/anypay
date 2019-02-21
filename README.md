@@ -113,7 +113,7 @@ go get github.com/panghu1024/anypay
 	
 	//结果判断
 	if res.Status == 1{//调用成功
-		query := res.Data.(WeResOrderQuery)
+		query := res.Data.(anypay.WeResOrderQuery)
 
 		fmt.Println(query.TradeState) //打印订单交易状态
 	}else{//调用失败
@@ -134,7 +134,7 @@ go get github.com/panghu1024/anypay
 
 	//结果判断
 	if res.Status == 1{//调用成功
-		refund := res.Data.(WeResRefund)
+		refund := res.Data.(anypay.WeResRefund)
 
 		fmt.Println(refund.RefundId) //打印微信退款单号
 	}else{//调用失败
@@ -152,7 +152,7 @@ go get github.com/panghu1024/anypay
 
 	//结果判断
 	if res.Status == 1{//调用成功
-		close := res.Data.(WeResCloseOrder)
+		close := res.Data.(anypay.WeResCloseOrder)
 
 		fmt.Println(close.ResultCode) //打印状态
 	}else{//调用失败
