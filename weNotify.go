@@ -21,7 +21,7 @@ type WeResNotify struct {
 	NonceStr string `xml:"nonce_str"`					// 随机字符串
 	Sign string `xml:"sign"`							// 签名
 	SignType string `xml:"sign_type"`					// 签名类型，目前支持HMAC-SHA256和MD5，默认为MD5
-	OpenId string `xml:"open_id"`						// 公众号OpenId
+	Openid string `xml:"openid"`						// 公众号OpenId
 	IsSubscribe string `xml:"is_subscribe"`				// 用户是否关注公众账号，Y-关注，N-未关注
 	TradeType string `xml:"trade_type"`					// 交易类型 JSAPI、NATIVE、APP等
 	BankType string `xml:"bank_type"`					// 银行类型，采用字符串类型的银行标识
