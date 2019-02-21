@@ -208,7 +208,7 @@ go get github.com/panghu1024/anypay
 
 ``` golang
   
-	res := payment.Notify(request,true)//接受数据,参数1=http.Request对象,参数2=是否强制验证appId
+	res := payment.Notify(request,true)//接受数据,参数1=http.Request对象,参数2=是否强制验证appId(若存在多个公众号下单统一回调，则不要强制验证)
 
 	if res.Status == 1{//成功获取数据并验签通过
 		notifyRes := res.Data.(anypay.WeResNotify)
