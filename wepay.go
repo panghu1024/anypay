@@ -52,13 +52,20 @@ func NewWePay(config WeConfig) (WePay){
 //签名检查
 func (w WePay) SignCheck(data map[string]interface{}) ReturnParam {
 
+	var signStr string
+	if _, ok := data["sign"]; ok {
+		signStr = data["sign"].(string)
+	}else{
+		return ReturnParam{-1,"签名参数不存在",nil}
+	}
+
 	sign,err := tools.GenerateSignString(data,w.config.Key)
 
 	if err != nil{
 		return ReturnParam{-1,err.Error(),nil}
 	}
 
-	if sign == data["sign"]{
+	if sign == signStr{
 		return ReturnParam{1,"ok",nil}
 	}else{
 		return ReturnParam{-1,"验证失败",nil}
