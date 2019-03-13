@@ -80,7 +80,9 @@ func Struct2Map(obj interface{}) map[string]interface{} {
 
 	var data = make(map[string]interface{})
 	for i := 0; i < t.NumField(); i++ {
-		if v.Field(i).Kind()==reflect.String &&  v.Field(i).Interface().(string) == ""{
+		if v.Field(i).Kind()==reflect.Struct{
+			continue
+		}else if v.Field(i).Kind()==reflect.String &&  v.Field(i).Interface().(string) == ""{
 			continue
 		}else if v.Field(i).Kind()==reflect.Int &&  v.Field(i).Interface().(int) == 0{
 			continue
