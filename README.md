@@ -204,6 +204,20 @@ go get github.com/panghu1024/anypay
 	}
 ```
 
+### 10.接收微信支付异步通知
+
+``` golang
+  
+	res := payment.Notify(request,true)//接受数据,参数1=http.Request对象,参数2=是否强制验证appId(若存在多个公众号下单统一回调，则不要强制验证)
+
+	if res.Status == 1{//成功获取数据并验签通过
+		notifyRes := res.Data.(anypay.WeResNotify)
+		fmt.Println(notifyRes)
+	}else{
+		fmt.Println(res)
+	}
+```
+
 # Feedback & Suggestion
 此文档持续更新中,有问题请联系 panghu1024@gmail.com
 
