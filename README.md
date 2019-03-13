@@ -218,6 +218,43 @@ go get github.com/panghu1024/anypay
 	}
 ```
 
+**支付宝使用参考**
+
+### 1. 生成实例
+``` golang
+	//初始配置文件
+	config := anypay.AliConfig{
+		AppId:"your alipay appid",
+		PrivateKeyString:"your pem file string",
+		PublicKeyString:"your pem file string",
+	}
+
+	payment := anypay.NewAliPay(config)//创建实例
+```
+### 2. 手机网站支付接口2.0
+``` golang
+	//发起支付
+	res := payment.TradeWap(anypay.AliTradeWapParam{
+		Charset:"utf-8",//字符集
+		SignType:"RSA2",//加密方式，支持RSA,RSA2
+		Timestamp:time.Now().Format("2006-01-02 15:04:05"),//时间戳
+		NotifyUrl:"domain/Notify",//回调地址
+		ReturnUrl:"domain",//返回地址
+		BizContent:anypay.TradeWapBizContent{
+			Subject:"订单主题",
+			OutTradeNo:"O20190313000001",//订单号
+			TotalAmount:"0.01",//订单金额
+			ProductCode:"QUICK_WAP_WAY",//支付宝产品编码,不可修改
+		},
+	})
+
+	if res.Status == 1{
+		url := res.Data //返回的H5支付链接
+	}else{
+		fmt.Println(res.Message)
+	}
+```
+
 # Feedback & Suggestion
 此文档持续更新中,有问题请联系 panghu1024@gmail.com
 
