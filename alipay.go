@@ -60,3 +60,30 @@ func (ali AliPay) SignPKCS1v15(src, key []byte, hash crypto.Hash) ([]byte, error
 	}
 	return rsa.SignPKCS1v15(rand.Reader, pri, hash, hashed)
 }
+
+//验证
+func (ali AliPay) VerifyPKCS1v15(src []byte, sign []byte, key []byte, hash crypto.Hash) (bool,error) {
+	var h = hash.New()
+	h.Write(src)
+	var hashed = h.Sum(nil)
+
+	var err error
+	var block *pem.Block
+	block, _ = pem.Decode(key)
+	if block == nil {
+		return false,errors.New("public key error")
+	}
+
+	pub, err := x509.ParsePKIXPublicKey(block.Bytes)
+	if err != nil {
+		return false,err
+	}
+
+	err = rsa.VerifyPKCS1v15(pub.(*rsa.PublicKey), hash, hashed, sign)
+
+	if err != nil{
+		return false,err
+	}
+
+	return true,nil
+}

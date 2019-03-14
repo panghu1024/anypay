@@ -6,6 +6,7 @@ import (
 	"net/url"
 )
 
+//参数排序
 func SortData(data url.Values) (str string,err error){
 
 	var list = make([]string, 0, 0)
