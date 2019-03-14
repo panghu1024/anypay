@@ -49,7 +49,7 @@ func (ali AliPay) Notify(req *http.Request) ReturnParam {
 
 	notify,_ := ali.notifyParam(req)
 
-	publicKey := ali.config.PublicKeyString
+	publicKey := tools.ParsePublicKey(ali.config.PublicKeyString)
 
 	req.Form.Del("sign")
 	req.Form.Del("sign_type")
