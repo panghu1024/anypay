@@ -1,5 +1,16 @@
 package anypay
 
+import (
+	"net/url"
+	"errors"
+	"github.com/panghu1024/anypay/tools"
+	"crypto"
+	"encoding/base64"
+	"encoding/json"
+	"net/http"
+	"io/ioutil"
+)
+
 //退款参数
 type AliTradeRefundParam struct {
 	// - - - Base Param
@@ -57,12 +68,17 @@ type RefundRoyaltyParameters struct {
 }
 
 //退款返回结构体
-type WeResTradeRefund struct {
+type AliResTradeRefund struct {
+	AlipayTradeRefundResponse AlipayTradeRefundResponse `json:"alipay_trade_refund_response"`
+	Sign string `json:"sign"`														//签名,详见文档
+}
+
+//返回参数
+type AlipayTradeRefundResponse struct {
 	Code string `json:"code"`														//网关返回码,详见文档
 	Msg string `json:"msg"`															//网关返回码描述,详见文档
 	SubCode string `json:"sub_code"`												//业务返回码，参见具体的API接口文档
 	SubMsg string `json:"sub_msg"`													//业务返回码描述，参见具体的API接口文档
-	Sign string `json:"sign"`														//签名,详见文档
 	OutTradeNo string `json:"out_trade_no"`											//商户网站唯一订单号
 	TradeNo string `json:"trade_no"`												//该交易在支付宝系统中的交易流水号。最长64位。
 	BuyerLogonId string `json:"buyer_logon_id"`
@@ -96,5 +112,89 @@ type PresetPayToolInfo struct {
 //退款
 func (ali AliPay) TradeRefund(refundParam AliTradeRefundParam) ReturnParam {
 
-	return ReturnParam{}
+	//处理参数
+	param,err := ali.tradeRefundParam(refundParam)
+
+	if err != nil{
+		return ReturnParam{-1,err.Error(),nil}
+	}
+
+	//对参数进行排序
+	src,_ := tools.SortData(param)
+
+	var hash crypto.Hash
+	if refundParam.SignType == "RSA" {
+		hash = crypto.SHA1
+	} else {
+		hash = crypto.SHA256
+	}
+
+	privateKey := tools.ParsePrivateKey(ali.config.PrivateKeyString)
+
+	sign, err := ali.SignPKCS1v15([]byte(src), privateKey, hash)
+
+	signWithBase64 := base64.StdEncoding.EncodeToString(sign)
+
+	param.Add("sign", signWithBase64)
+
+	url := AliCommonApi+"?"+param.Encode()
+
+	r,err := http.Get(url)
+
+	if err != nil {
+		return ReturnParam{-1,err.Error(),nil}
+	}
+
+	defer r.Body.Close()
+	body, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		return ReturnParam{-1,err.Error(),nil}
+	}
+
+	var res AliResTradeRefund
+
+	json.Unmarshal([]byte(string(body)),&res)
+
+	if res.AlipayTradeRefundResponse.Code != "10000"{
+		return ReturnParam{-1,res.AlipayTradeRefundResponse.Msg,res}
+	}
+
+	return ReturnParam{1,"ok",res}
+}
+
+//处理交易参数
+func (ali AliPay) tradeRefundParam(orderParam AliTradeRefundParam) (url.Values,error){
+	var param = url.Values{}
+	param.Add("app_id", ali.config.AppId)
+	param.Add("method", "alipay.trade.refund")
+	param.Add("format", "JSON")
+	param.Add("charset", orderParam.Charset)
+	param.Add("sign_type", orderParam.SignType)
+	param.Add("timestamp", orderParam.Timestamp)
+	param.Add("version", "1.0")
+
+	if orderParam.AppAuthToken != ""{
+		param.Add("app_auth_token", orderParam.AppAuthToken)	//
+	}
+
+	bizContent:=tools.Struct2Map(orderParam.BizContent)
+
+	if orderParam.BizContent.GoodsDetail != nil{
+		bizContent["goods_detail"] = tools.Struct2Map(orderParam.BizContent.GoodsDetail)
+	}
+
+	if orderParam.BizContent.RefundRoyaltyParameters != nil{
+		bizContent["refund_royalty_parameters"] = tools.Struct2Map(orderParam.BizContent.RefundRoyaltyParameters)
+	}
+
+	bizContentString,err := json.Marshal(bizContent)
+
+	if err != nil{
+		return nil,errors.New("生成biz_content字符串失败")
+	}
+
+	param.Add("biz_content",string(bizContentString))
+
+	return param,nil
 }
