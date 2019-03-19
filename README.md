@@ -255,6 +255,28 @@ go get github.com/panghu1024/anypay
 	}
 ```
 
+### 3. 退款接口
+``` golang
+	//发起退款
+	res := payment.TradeRefund(anypay.AliTradeRefundParam{
+		SignType:"RSA2",
+		Timestamp:time.Now().Format("2006-01-02 15:04:05"),
+		BizContent:anypay.TradeRefundBizContent{
+			TradeNo:"2018122522001464891116897117",//交易流水号与订单号二选一
+			//OutTradeNo:"T201903010000001",//商户订单号
+			RefundAmount:"0.01",
+		},
+	})
+	
+	//业务处理
+	if res.Status == 1{
+		param := res.Data.(anypay.AliResTradeRefund)
+		fmt.Println(param)
+	}else{
+		fmt.Println(res.Message)
+	}
+```
+
 # Feedback & Suggestion
 此文档持续更新中,有问题请联系 panghu1024@gmail.com
 
