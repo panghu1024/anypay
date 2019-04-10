@@ -75,7 +75,7 @@ func (ali AliPay) Notify(req *http.Request) ReturnParam {
 		return ReturnParam{-1,"fail",err.Error()}
 	}
 
-	return ReturnParam{1,"ok",nil}
+	return ReturnParam{1,"ok",notify}
 }
 
 //参数整合
