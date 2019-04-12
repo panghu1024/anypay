@@ -104,7 +104,9 @@ func (w WePay) UnifiedOrder(orderParam WeOrderParam) ReturnParam {
 
 	nonceStr := tools.GenerateNonceString()
 
-	orderParam.Appid = w.config.AppId	//设置APPID
+	if orderParam.Appid == ""{
+		orderParam.Appid = w.config.AppId	//设置APPID
+	}
 	orderParam.NonceStr = nonceStr		//设置随机字符串
 	orderParam.MchId = w.config.MchId	//设置商户ID
 
