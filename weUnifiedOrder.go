@@ -167,6 +167,7 @@ func (w WePay) JsApiParam(prepayId string) ReturnParam {
 	res.NonceStr = nonceStr
 	res.Package = packageStr
 	res.Sign = paySign
+	res.TimeStamp = timeStamp
 
 	return ReturnParam{1,"ok",res}
 }
