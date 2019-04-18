@@ -277,6 +277,20 @@ go get github.com/panghu1024/anypay
 	}
 ```
 
+### 4. 支付通知处理
+``` golang
+	//发起退款
+	res := payment.Notify(request)//接受数据,参数1=http.Request对象
+	
+	//业务处理
+	if res.Status == 1{
+		resNotify := res.Data.(anypay.AliResNotify)
+		fmt.Println(resNotify)
+	}else{
+		fmt.Println(res.Message)
+	}
+```
+
 # Feedback & Suggestion
 此文档持续更新中,有问题请联系 panghu1024@gmail.com
 
