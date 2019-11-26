@@ -71,6 +71,16 @@ type WeResJsApi struct {
 	Sign string				// 加密签名
 }
 
+// APPAPI参数结构体
+type WeResAppApi struct {
+	TimeStamp string		// 时间戳
+	NonceStr string			// 随机字符串
+	Package string			// 固定字符
+	PrepayId string			// PrepayId 拼接的字符串
+	Sign string				// 加密签名
+	PartnerId string		// 商户ID
+}
+
 //订单参数检查
 func(WePay) paramCheckForUnifiedOrder(orderParam WeOrderParam) bool {
 	if orderParam.Body == ""{
@@ -167,6 +177,26 @@ func (w WePay) JsApiParam(prepayId string) ReturnParam {
 	res.NonceStr = nonceStr
 	res.Package = packageStr
 	res.Sign = paySign
+	res.TimeStamp = timeStamp
+
+	return ReturnParam{1,"ok",res}
+}
+
+//App 支付参数
+func (w WePay) AppApiParam(prepayId string) ReturnParam {
+	timeStamp := strconv.FormatInt(time.Now().UTC().UnixNano(), 10)[:10]
+
+	nonceStr := tools.GenerateNonceString()
+	packageStr := "Sign=WXPay"
+	paySign := strings.ToUpper(tools.MD5("appid="+w.config.AppId+"&noncestr="+nonceStr+"&package="+packageStr+"&partnerid="+w.config.MchId+"&prepayid="+prepayId+"&timestamp="+timeStamp+"&key="+w.config.Key))
+
+	var res WeResAppApi
+
+	res.NonceStr = nonceStr
+	res.Package = packageStr
+	res.PrepayId = prepayId
+	res.Sign = paySign
+	res.PartnerId = w.config.MchId
 	res.TimeStamp = timeStamp
 
 	return ReturnParam{1,"ok",res}
